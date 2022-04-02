@@ -1,9 +1,15 @@
 from collections import namedtuple
 import pandas as pd
+import os
+import pickle
 from typing import List
 
 
 Lecture = namedtuple('Lecture', ['name', 'category'])
+LECTURE_REPORT_ELEMENTS = ['lecture', 'professor', 'assignment_counts', 'assignment_level',
+                           'team_project', 'exam_counts', 'exam_level', 'exam_type', 'grade_level']
+LectureReport = namedtuple(
+    'LectureReport', LECTURE_REPORT_ELEMENTS)
 
 
 class LectureList:
@@ -54,6 +60,30 @@ class LectureList:
             result.add(prof)
 
         return list(result)
+
+
+class LectureReportDB:
+    def __init__(self):
+        pass
+
+    def add_report(self, report: LectureReport):
+        def _impl(df: pd.DataFrame) -> pd.DataFrame:
+            return df.append(report._asdict(), ignore_index=True)
+
+        self.open(_impl)
+
+    def open(self, fn, read_only: bool = False):
+        if os.path.exists('database/reports.pkl'):
+            with open('database/reports.pkl', 'rb') as f:
+                data: pd.DataFrame = pickle.load(f)
+        else:
+            data: pd.DataFrame = pd.DataFrame(columns=LECTURE_REPORT_ELEMENTS)
+
+        data = fn(data)
+
+        if not read_only:
+            with open('database/reports.pkl', 'wb') as f:
+                pickle.dump(data, f)
 
 
 if __name__ == '__main__':
