@@ -1,27 +1,17 @@
 import streamlit as st
+from streamlit_option_menu import option_menu
 
 from timetabler.wizards.timetable import show_timetable_wizard
 from timetabler.wizards.report import show_report
 
 
-def show_main():
-    st.title('Auto timetable maker')
-
-
 if __name__ == '__main__':
-    st.sidebar.title('Menu')
-    button_status = [
-        st.sidebar.button('시간표 마법사'),
-        st.sidebar.button('수강평 남기기')
-    ]
+    with st.sidebar:
+        MENU_CHOOSED = option_menu('Timetabler', [
+            '시간표 마법사', '수강평 남기기'
+        ], icons=['kanban', 'book'])
 
-    menus = [
-        show_timetable_wizard,
-        show_report,
-        show_main
-    ]
-
-    for i in range(len(menus)):
-        if i == len(menus) - 1 or button_status[i]:
-            menus[i]()
-            break
+    if MENU_CHOOSED == '시간표 마법사':
+        show_timetable_wizard()
+    elif MENU_CHOOSED == '수강평 남기기':
+        show_report()
