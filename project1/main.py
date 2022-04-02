@@ -1,7 +1,7 @@
 import streamlit as st
 
-from wizards.timetable import show_timetable_wizard
-from wizards.report import show_report
+from timetabler.wizards.timetable import show_timetable_wizard
+from timetabler.wizards.report import show_report
 
 
 def show_main():
