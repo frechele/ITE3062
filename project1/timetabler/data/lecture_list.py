@@ -23,18 +23,18 @@ class LectureList:
                     'category': category
                 }, ignore_index=True)
 
-    def get_lectures(self) -> List[Lecture]:
+    def get_lectures(self) -> List[str]:
         result = set()
 
-        for name, _, category in self.df.itertuples(index=False):
-            result.add(Lecture(name=name, category=category))
+        for name in self.df['lecture']:
+            result.add(name)
 
         return list(result)
 
     def get_lectures_by_category(self, category: str) -> List[str]:
         result = set()
 
-        for name, _, _ in self.df[self.df['category'] == category].itertuples(index=False):
+        for name in self.df[self.df['category'] == category]['name']:
             result.add(name)
 
         return list(result)
@@ -47,7 +47,17 @@ class LectureList:
 
         return result
 
+    def get_professors_by_lecture(self, lecture: str) -> List[str]:
+        result = set()
+
+        for prof in self.df[self.df['lecture'] == lecture]['professor']:
+            result.add(prof)
+
+        return list(result)
+
 
 if __name__ == '__main__':
     lect_list = LectureList()
     print(lect_list.df)
+
+    print(lect_list.get_professors_by_lecture('운영체제'))
