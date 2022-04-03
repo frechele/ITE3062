@@ -56,6 +56,14 @@ class LectureList:
 
         return list(result)
 
+    def get_lecture_category(self, lecture: str) -> List[str]:
+        result = set()
+
+        for category in self.df[self.df['lecture'] == lecture]['category']:
+            result.add(category)
+
+        return list(result)
+
     def get_lectures_by_category(self, category: str) -> List[str]:
         result = set()
 
