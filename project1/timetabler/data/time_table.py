@@ -2,6 +2,8 @@ from collections import namedtuple
 import pandas as pd
 import json
 from typing import List
+import numpy as np
+from sympy import Q
 
 
 LectureTime = namedtuple('LectureTime', ['day', 'start', 'end'])
@@ -25,7 +27,43 @@ class TimedLecture:
 
 
 class TimeTable:
-    pass
+    def __init__(self):
+        self.table = np.ones((5, 48)) * -1
+        self.lectures: List[TimedLecture] = []
+
+    def is_valid(self, lecture: TimedLecture) -> bool:
+        for t in lecture.times:
+            for i in range(t.start, t.end + 1):
+                if self.table[t.day, i] >= 0:
+                    return False
+        return True
+
+    def add_lecture(self, lecture: TimedLecture) -> bool:
+        if not self.is_valid(lecture):
+            return False
+
+        self.lectures.append(lecture)
+        for t in lecture.times:
+            for i in range(t.start, t.end + 1):
+                self.table[t.day, i] = len(self.lectures) - 1
+
+        return True
+
+    def remove_lecture(self, lecture: TimedLecture) -> bool:
+        idx = self.table[lecture.times[0].day, lecture.times[0].start]
+        if idx == -1:
+            return False
+
+        if self.lectures[idx].lecture != lecture.lecture or self.lectures[idx].professor != lecture.professor:
+            return False
+
+        del self.lectures[idx]
+
+        for t in lecture.times:
+            for i in range(t.start, t.end + 1):
+                self.table[t.day, i] = -1
+
+        return True
 
 
 class LectureTimeDB:
@@ -67,7 +105,7 @@ class LectureTimeDB:
                     'end_time': end_time
                 }, ignore_index=True)
 
-    def get_timed_lecture(self, lecture: str, professor: str) -> List[TimedLecture]:
+    def get_timed_lecture_professor(self, lecture: str, professor: str) -> List[TimedLecture]:
         df = self.df[(self.df['lecture'] == lecture) & (self.df['professor'] == professor)][['start_time', 'end_time']]
 
         result = []
@@ -97,8 +135,8 @@ class LectureTimeDB:
 if __name__ == '__main__':
     db = LectureTimeDB()
     
-    for lecture in db.get_timed_lecture('데이터베이스시스템및응용'):
-        print(lecture.lecture)
-        print(lecture.professor)
-        print(lecture.times)
-        print()
+    lecture = db.get_timed_lecture_professor('데이터베이스시스템및응용', '정형수')[0]
+    table = TimeTable()
+    table.add_lecture(lecture)
+
+    print(table.table)
