@@ -131,6 +131,14 @@ class LectureTimeDB:
 
         return result
 
+    def get_lectures(self) -> List[str]:
+        result = set()
+
+        for lecture in self.df['lecture']:
+            result.add(lecture)
+
+        return list(result)
+
 
 if __name__ == '__main__':
     db = LectureTimeDB()

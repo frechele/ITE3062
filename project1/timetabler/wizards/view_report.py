@@ -34,3 +34,6 @@ def show_view_report():
 
     st.write('성적 (너그러움 ↔ 깐깐함)')
     st.progress(record.grade_level / (len(L.GRADE_LEVEL_LABELS) - 1))
+
+    st.write('조별활동 (없음 ↔ 있음')
+    st.progress(record.team_project / (len(L.TEAM_PROJECT_LABELS) - 1))
