@@ -33,7 +33,7 @@ class TimeTable:
 
     def is_valid(self, lecture: TimedLecture) -> bool:
         for t in lecture.times:
-            for i in range(t.start, t.end + 1):
+            for i in range(t.start, t.end):
                 if self.table[t.day, i] >= 0:
                     return False
         return True
@@ -44,7 +44,7 @@ class TimeTable:
 
         self.lectures.append(lecture)
         for t in lecture.times:
-            for i in range(t.start, t.end + 1):
+            for i in range(t.start, t.end):
                 self.table[t.day, i] = len(self.lectures) - 1
 
         return True
@@ -60,7 +60,7 @@ class TimeTable:
         del self.lectures[idx]
 
         for t in lecture.times:
-            for i in range(t.start, t.end + 1):
+            for i in range(t.start, t.end):
                 self.table[t.day, i] = -1
 
         return True
