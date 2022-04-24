@@ -9,9 +9,10 @@ LectureTime = namedtuple('LectureTime', ['day', 'start', 'end'])
 
 
 class TimedLecture:
-    def __init__(self, lecture: str, professor: str, start_times: List[str], end_times: List[str]):
+    def __init__(self, lecture: str, professor: str, unit: int, start_times: List[str], end_times: List[str]):
         self.lecture = lecture
         self.professor = professor
+        self.unit = unit
 
         self.times = []
         for start_time, end_time in zip(start_times, end_times):
@@ -64,17 +65,22 @@ class TimeTable:
 
         return True
 
+    @property
+    def total_lecture(self) -> int:
+        return sum([lecture.unit for lecture in self.lectures])
+
 
 class LectureTimeDB:
     def __init__(self):
         self.df = pd.DataFrame(
-            columns=['lecture', 'professor', 'start_time', 'end_time'])
+            columns=['lecture', 'professor', 'unit', 'start_time', 'end_time'])
 
         with open('database/lecture_time', 'rt') as f:
             lecture_times = json.load(f)
             for data in lecture_times:
                 lecture = data['lecture']
                 professor = data['professor']
+                unit = data['unit']
 
                 start_time = []
                 end_time = []
@@ -100,6 +106,7 @@ class LectureTimeDB:
                 self.df = self.df.append({
                     'lecture': lecture,
                     'professor': professor,
+                    'unit': unit,
                     'start_time': start_time,
                     'end_time': end_time
                 }, ignore_index=True)
@@ -118,14 +125,14 @@ class LectureTimeDB:
         return result
 
     def get_timed_lecture(self, lecture: str) -> List[TimedLecture]:
-        df = self.df[self.df['lecture'] == lecture][['professor', 'start_time', 'end_time']]
+        df = self.df[self.df['lecture'] == lecture][['professor', 'unit', 'start_time', 'end_time']]
 
         result = []
-        for professor, start_time, end_time in df.itertuples(index=False):
+        for professor, unit, start_time, end_time in df.itertuples(index=False):
             start_times = start_time.split(';')
             end_times= end_time.split(';')
 
-            timed_lecture = TimedLecture(lecture, professor, start_times, end_times)
+            timed_lecture = TimedLecture(lecture, professor, unit, start_times, end_times)
             result.append(timed_lecture)
 
         return result

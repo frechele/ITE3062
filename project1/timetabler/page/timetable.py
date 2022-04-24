@@ -84,5 +84,5 @@ def show_timetable_wizard():
             timetabels.sort(key=lambda x: x.score, reverse=True)
 
             for idx, solution in enumerate(timetabels, 1):
-                st.subheader('시간표{} (점수: {:.2f})'.format(idx, solution.score))
+                st.subheader('시간표{} (점수: {:.2f}, {} 학점)'.format(idx, solution.score, solution.tt.total_lecture))
                 st.pyplot(draw_time_table(solution.tt))
