@@ -1,9 +1,9 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-from timetabler.wizards.timetable import show_timetable_wizard
-from timetabler.wizards.report import show_report
-from timetabler.wizards.view_report import show_view_report
+from timetabler.page.timetable import show_timetable_wizard
+from timetabler.page.report import show_report
+from timetabler.page.view_report import show_view_report
 
 
 if __name__ == '__main__':

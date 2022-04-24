@@ -3,7 +3,6 @@ import pandas as pd
 import json
 from typing import List
 import numpy as np
-from sympy import Q
 
 
 LectureTime = namedtuple('LectureTime', ['day', 'start', 'end'])
