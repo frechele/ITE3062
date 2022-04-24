@@ -63,4 +63,4 @@ class Evaluator:
         if diversity == 3:
             total_score += category_dist.var()
 
-        return total_score
+        return 1 / (1 + np.exp(-total_score)) * 100
