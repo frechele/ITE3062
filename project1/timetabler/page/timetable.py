@@ -1,10 +1,10 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 from matplotlib import font_manager, rc
-from timetabler.data.lecture import LectureList, LectureReportDB
 
+from timetabler.data.lecture import LectureList, LectureReportDB
 from timetabler.data.time_table import LectureTimeDB, TimeTable
-from timetabler.optimizer.scoring import Evaluator
+from timetabler.optimizer.solver import Solver
 
 
 DIFFICULTY_LEVEL_LABELS = ['안정주의', '중립', '도전적']
@@ -69,47 +69,20 @@ def show_timetable_wizard():
     blank_level = st.select_slider(label='공강은...', options=BLANK_LEVEL_LABELS)
     blank_level = BLANK_LEVEL_LABELS.index(blank_level)
 
-    lecture_counts = st.slider(label='듣고 싶은 학점', value=[10, 21], max_value=30)
+    min_lecture, max_lecture = st.slider(label='듣고 싶은 학점', value=[10, 21], max_value=30)
 
     lecture_list = LectureTimeDB()
     must_included = st.multiselect('이 과목은 꼭 들어야해요', lecture_list.get_lectures())
 
     if st.button('생성'):
-        st.balloons()
+        solver = Solver(difficulty_level, team_project, exam_level, dist_level, blank_level, min_lecture, max_lecture, must_included)
+        timetabels = solver.get_solutions()
 
-        evaluator = Evaluator(LectureList(), LectureReportDB())
+        if len(timetabels) == 0:
+            st.error('만들 수 있는 시간표가 없습니다.')
+        else:
+            timetabels.sort(key=lambda x: x.score, reverse=True)
 
-        timetabels = []
-
-        tt = TimeTable()
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('시스템프로그래밍', '조영필')[0])
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('알고리즘문제해결기법', '채동규')[0])
-        tt.add_lecture(lecture_list.get_timed_lecture('생명이란무엇인가?정신과물질')[0])
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('소프트웨어실무영어', '오연주')[2])
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('데이터베이스시스템및응용', '정형수')[0])
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('컴퓨터네트워크', '이춘화')[0])
-        timetabels.append((tt, evaluator.evaluate(tt, difficulty_level, team_project, exam_level, dist_level, blank_level)))
-
-        tt = TimeTable()
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('시스템프로그래밍', '조영필')[0])
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('알고리즘문제해결기법', '채동규')[0])
-        tt.add_lecture(lecture_list.get_timed_lecture('생명이란무엇인가?정신과물질')[0])
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('소프트웨어실무영어', '오연주')[1])
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('데이터베이스시스템및응용', '정형수')[0])
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('컴퓨터네트워크', '이춘화')[0])
-        timetabels.append((tt, evaluator.evaluate(tt, difficulty_level, team_project, exam_level, dist_level, blank_level)))
-
-        tt = TimeTable()
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('시스템프로그래밍', '조영필')[0])
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('알고리즘문제해결기법', '채동규')[0])
-        tt.add_lecture(lecture_list.get_timed_lecture('생명이란무엇인가?정신과물질')[0])
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('소프트웨어실무영어', '오연주')[1])
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('데이터베이스시스템및응용', '김상욱')[0])
-        tt.add_lecture(lecture_list.get_timed_lecture_professor('컴퓨터네트워크', '이춘화')[0])
-        timetabels.append((tt, evaluator.evaluate(tt, difficulty_level, team_project, exam_level, dist_level, blank_level)))
-
-        timetabels.sort(key=lambda x: x[1], reverse=True)
-
-        for tt, score in timetabels:
-            st.subheader('시간표1 (점수: {:.2f})'.format(score))
-            st.pyplot(draw_time_table(tt))
+            for idx, solution in enumerate(timetabels, 1):
+                st.subheader('시간표{} (점수: {:.2f})'.format(idx, solution.score))
+                st.pyplot(draw_time_table(solution.tt))
