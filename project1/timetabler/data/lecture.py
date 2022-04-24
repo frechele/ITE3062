@@ -5,7 +5,7 @@ import pickle
 from typing import Dict, List
 
 
-Lecture = namedtuple('Lecture', ['name', 'category'])
+Lecture = namedtuple('Lecture', ['name', 'category', 'unit'])
 LECTURE_REPORT_ELEMENTS = ['lecture', 'professor', 'assignment_counts', 'assignment_level',
                            'team_project', 'exam_counts', 'exam_level', 'exam_type', 'grade_level']
 LectureReport = namedtuple(
@@ -41,11 +41,12 @@ class LectureList:
                 if len(line) == 0:
                     continue
 
-                lecture, prof, category = line.split('\t')
+                lecture, prof, category, unit = line.split('\t')
                 self.df = self.df.append({
                     'lecture': lecture,
                     'professor': prof,
-                    'category': category
+                    'category': category,
+                    'unit': unit
                 }, ignore_index=True)
 
     def get_lectures(self) -> List[str]:
@@ -55,6 +56,14 @@ class LectureList:
             result.add(name)
 
         return list(result)
+
+    def get_lecture(self, lecture: str, professor: str) -> Lecture:
+        df = self.df[(self.df['lecture'] == lecture) & (self.df['professor'] == professor)]
+        return Lecture(
+            name=df.lecture.item(),
+            category=df.category.item(),
+            unit=df.unit.item()
+        )
 
     def get_lecture_category(self, lecture: str) -> List[str]:
         result = set()
@@ -75,8 +84,8 @@ class LectureList:
     def get_lectures_by_professor(self, professor: str) -> List[Lecture]:
         result = list()
 
-        for name, _, category in self.df[self.df['professor'] == professor].itertuples(index=False):
-            result.append(Lecture(name=name, category=category))
+        for name, _, category, unit in self.df[self.df['professor'] == professor].itertuples(index=False):
+            result.append(Lecture(name=name, category=category, unit=unit))
 
         return result
 

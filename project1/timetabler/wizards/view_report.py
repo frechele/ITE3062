@@ -15,7 +15,10 @@ def show_view_report():
     professor_name = st.selectbox(
         '교수명', lecture_list.get_professors_by_lecture(lecture_name))
 
+    lecture_info = lecture_list.get_lecture(lecture_name, professor_name)
     record = db.get_report(lecture_name, professor_name)
+
+    st.write('학점: {}'.format(lecture_info.unit))
 
     st.write('과제 수 (없음 ↔ 많음)')
     st.progress(record.assignment_counts / (len(L.ASSIGNMENT_COUNTS_LABELS) - 1))
