@@ -137,13 +137,3 @@ class LectureTimeDB:
             result.add(lecture)
 
         return list(result)
-
-
-if __name__ == '__main__':
-    db = LectureTimeDB()
-    
-    lecture = db.get_timed_lecture_professor('데이터베이스시스템및응용', '정형수')[0]
-    table = TimeTable()
-    table.add_lecture(lecture)
-
-    print(table.table)

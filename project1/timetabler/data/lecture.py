@@ -164,11 +164,3 @@ class LectureReportDB:
                 
         with open('database/report_summary.pkl', 'wb') as f:
             pickle.dump(df_result, f)
-
-
-if __name__ == '__main__':
-    lect_list = LectureList()
-    report_db = LectureReportDB()
-
-    report_db.summary_reports(lect_list)
-    print(report_db.get_report('운영체제', '정형수'))
