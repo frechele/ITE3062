@@ -7,6 +7,10 @@ from timetabler.wizards.view_report import show_view_report
 
 
 if __name__ == '__main__':
+    st.set_page_config(
+        page_title='Timetabler'
+    )
+
     with st.sidebar:
         MENU_CHOOSED = option_menu('Timetabler', [
             '시간표 마법사', '수강평 남기기', '강의정보'
