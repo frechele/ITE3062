@@ -2,6 +2,7 @@
     {
         "lecture": "데이터베이스시스템및응용",
         "professor": "정형수",
+        "unit": 3,
         "time": [
             {
                 "start": "월/13/0",
@@ -16,6 +17,7 @@
     {
         "lecture": "데이터베이스시스템및응용",
         "professor": "정형수",
+        "unit": 3,
         "time": [
             {
                 "start": "월/17/0",
@@ -30,6 +32,7 @@
     {
         "lecture": "데이터베이스시스템및응용",
         "professor": "김상욱",
+        "unit": 3,
         "time": [
             {
                 "start": "월/13/0",
@@ -45,6 +48,7 @@
     {
         "lecture": "시스템프로그래밍",
         "professor": "조영필",
+        "unit": 3,
         "time": [
             {
                 "start": "화/10/0",
@@ -59,6 +63,7 @@
     {
         "lecture": "시스템프로그래밍",
         "professor": "서지원",
+        "unit": 3,
         "time": [
             {
                 "start": "월/10/0",
@@ -73,6 +78,7 @@
     {
         "lecture": "시스템프로그래밍",
         "professor": "조인휘",
+        "unit": 3,
         "time": [
             {
                 "start": "화/10/0",
@@ -88,6 +94,7 @@
     {
         "lecture": "컴퓨터네트워크",
         "professor": "이춘화",
+        "unit": 3,
         "time": [
             {
                 "start": "화/16/0",
@@ -102,6 +109,7 @@
     {
         "lecture": "컴퓨터네트워크",
         "professor": "조인휘",
+        "unit": 3,
         "time": [
             {
                 "start": "화/16/0",
@@ -116,6 +124,7 @@
     {
         "lecture": "컴퓨터네트워크",
         "professor": "최진식",
+        "unit": 3,
         "time": [
             {
                 "start": "화/16/0",
@@ -131,6 +140,7 @@
     {
         "lecture": "소프트웨어실무영어",
         "professor": "오연주",
+        "unit": 3,
         "time": [
             {
                 "start": "목/10/0",
@@ -145,6 +155,7 @@
     {
         "lecture": "소프트웨어실무영어",
         "professor": "오연주",
+        "unit": 3,
         "time": [
             {
                 "start": "금/10/0",
@@ -159,6 +170,7 @@
     {
         "lecture": "소프트웨어실무영어",
         "professor": "오연주",
+        "unit": 3,
         "time": [
             {
                 "start": "금/16/0",
@@ -174,6 +186,7 @@
     {
         "lecture": "알고리즘문제해결기법",
         "professor": "박희진",
+        "unit": 3,
         "time": [
             {
                 "start": "수/13/0",
@@ -188,6 +201,7 @@
     {
         "lecture": "알고리즘문제해결기법",
         "professor": "박희진",
+        "unit": 3,
         "time": [
             {
                 "start": "수/14/30",
@@ -202,6 +216,7 @@
     {
         "lecture": "알고리즘문제해결기법",
         "professor": "채동규",
+        "unit": 3,
         "time": [
             {
                 "start": "수/13/0",
@@ -217,6 +232,7 @@
     {
         "lecture": "마이크로프로세서응용",
         "professor": "조영필",
+        "unit": 3,
         "time": [
             {
                 "start": "월/15/0",
@@ -231,6 +247,7 @@
     {
         "lecture": "마이크로프로세서응용",
         "professor": "박영준",
+        "unit": 3,
         "time": [
             {
                 "start": "월/15/0",
@@ -246,6 +263,7 @@
     {
         "lecture": "생명이란무엇인가?정신과물질",
         "professor": "채지형",
+        "unit": 2,
         "time": [
             {
                 "start": "목/11/0",
@@ -255,8 +273,9 @@
     },
 
     {
-        "lecture": "종의기원",
+        "lecture": "종의기원과진화",
         "professor": "채지형",
+        "unit": 2,
         "time": [
             {
                 "start": "금/11/0",
@@ -268,6 +287,7 @@
     {
         "lecture": "뇌과학의이해",
         "professor": "황세진",
+        "unit": 2,
         "time": [
             {
                 "start": "수/15/0",
@@ -279,6 +299,7 @@
     {
         "lecture": "기초법의학",
         "professor": "김원규",
+        "unit": 2,
         "time": [
             {
                 "start": "금/9/0",
@@ -289,6 +310,7 @@
     {
         "lecture": "기초법의학",
         "professor": "김원규",
+        "unit": 2,
         "time": [
             {
                 "start": "금/13/0",
@@ -300,6 +322,7 @@
     {
         "lecture": "기초스페인어",
         "professor": "정동희",
+        "unit": 3,
         "time": [
             {
                 "start": "목/9/0",
@@ -314,6 +337,7 @@
     {
         "lecture": "기초스페인어",
         "professor": "정동희",
+        "unit": 3,
         "time": [
             {
                 "start": "금/9/0",
@@ -329,6 +353,7 @@
     {
         "lecture": "분석과비판",
         "professor": "민찬홍",
+        "unit": 2,
         "time": [
             {
                 "start": "목/13/0",
@@ -340,6 +365,7 @@
     {
         "lecture": "대중문화와법",
         "professor": "박성호",
+        "unit": 2,
         "time": [
             {
                 "start": "목/9/0",
@@ -351,6 +377,7 @@
     {
         "lecture": "미시경제원론",
         "professor": "최연수",
+        "unit": 2,
         "time": [
             {
                 "start": "수/9/0",
@@ -361,6 +388,7 @@
     {
         "lecture": "미시경제원론",
         "professor": "박춘원",
+        "unit": 2,
         "time": [
             {
                 "start": "금/10/0",
@@ -371,6 +399,7 @@
     {
         "lecture": "미시경제원론",
         "professor": "원대식",
+        "unit": 2,
         "time": [
             {
                 "start": "화/17/30",
@@ -382,6 +411,7 @@
     {
         "lecture": "초급일본어",
         "professor": "김주연",
+        "unit": 3,
         "time": [
             {
                 "start": "월/9/0",
@@ -396,6 +426,7 @@
     {
         "lecture": "초급일본어",
         "professor": "최경옥",
+        "unit": 3,
         "time": [
             {
                 "start": "월/10/30",
@@ -410,6 +441,7 @@
     {
         "lecture": "초급일본어",
         "professor": "오수진",
+        "unit": 3,
         "time": [
             {
                 "start": "목/10/0",
@@ -424,6 +456,7 @@
     {
         "lecture": "초급일본어",
         "professor": "이준영",
+        "unit": 3,
         "time": [
             {
                 "start": "수/15/0",
@@ -439,6 +472,7 @@
     {
         "lecture": "라틴아메리카문화와예술",
         "professor": "정동희",
+        "unit": 2,
         "time": [
             {
                 "start": "금/11/0",
