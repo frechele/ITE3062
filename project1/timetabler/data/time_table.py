@@ -13,6 +13,7 @@ class TimedLecture:
         self.lecture = lecture
         self.professor = professor
         self.unit = unit
+        self.start_times = start_times
 
         self.times = []
         for start_time, end_time in zip(start_times, end_times):
@@ -24,6 +25,12 @@ class TimedLecture:
 
             self.times.append(LectureTime(day=day, start=_time_convert(
                 st_hour, st_minute), end=_time_convert(ed_hour, ed_minute)))
+
+    def __hash__(self):
+        return hash((self.lecture, self.professor, tuple(self.start_times)))
+
+    def __eq__(self, other):
+        return self.lecture == other.lecture and self.professor == other.professor and self.start_times == other.start_times
 
 
 class TimeTable:
@@ -135,6 +142,12 @@ class LectureTimeDB:
             timed_lecture = TimedLecture(lecture, professor, unit, start_times, end_times)
             result.append(timed_lecture)
 
+        return result
+
+    def get_all_timed_lectures(self) -> List[TimedLecture]:
+        result = []
+        for lecture in self.get_lectures():
+            result += self.get_timed_lecture(lecture)
         return result
 
     def get_lectures(self) -> List[str]:

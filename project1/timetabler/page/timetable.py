@@ -76,7 +76,9 @@ def show_timetable_wizard():
 
     if st.button('생성'):
         solver = Solver(difficulty_level, team_project, exam_level, dist_level, blank_level, min_lecture, max_lecture, must_included)
-        timetabels = solver.get_solutions()
+
+        with st.spinner('시간표 생성중'):
+            timetabels = solver.get_solutions()
 
         if len(timetabels) == 0:
             st.error('만들 수 있는 시간표가 없습니다.')
