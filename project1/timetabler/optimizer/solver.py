@@ -62,7 +62,7 @@ class Solver:
                     if not sol.add_lecture(lec, True):
                         return
 
-                while sol.tt.total_lecture < self.min_lecture:
+                while sol.tt.total_lecture < (self.max_lecture * 0.8):
                     lec_strs = set([lecture.lecture for lecture in sol.lectures])
                     candidates = list(set(time_db.get_all_timed_lectures()).difference(set(sol.lectures)))
                     candidates = list(filter(lambda x: x.lecture not in lec_strs, candidates))
