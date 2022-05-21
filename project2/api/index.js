@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { sequelize } = require('./database');
 const experimentResultController = require('./controller/experiment-result.controller');
+const problemController = require('./controller/problem.controller');
 
 async function launchServer() {
     const app = express();
@@ -13,6 +14,8 @@ async function launchServer() {
 
     app.get('/experiment-result', experimentResultController.getAll);
     app.post('/experiment-result', experimentResultController.insertOrUpdate);
+
+    app.get('/problem', problemController.getProblem);
 
     try {
         await sequelize.sync();
