@@ -14,6 +14,10 @@ module.exports = (sequelize) => {
                 type: DataTypes.FLOAT,
                 allowNull: false,
             },
+            infolevel: {
+                type: DataTypes.INTEGER.UNSIGNED,
+                allowNull: false,
+            },
             correct: {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
