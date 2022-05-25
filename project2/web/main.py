@@ -2,11 +2,12 @@ import streamlit as st
 from PIL import Image
 import time
 import os
+import uuid
 
 from dataloader import generate_problems, ShowLevel
 
 
-NUM_PROBLEMS = 16
+NUM_PROBLEMS = 12
 
 
 def show_only_qa(problem):
@@ -14,23 +15,72 @@ def show_only_qa(problem):
 
 
 def show_with_name(problem):
-    pass
+    st.write('등장 인물: {}'.format(', '.join(problem['qids'])))
 
 
 def show_with_some_fact(problem):
-    pass
+    show_with_name(problem)
+
+    st.markdown('**관련된 배경지식 목록**')
+
+    sorted_fact = sorted(problem['facts'], key=lambda x: x['attn'], reverse=True)
+    sum_of_attn = 0
+    for pr in sorted_fact:
+        fact = pr['fact']
+        attn = pr['attn']
+
+        sum_of_attn += attn
+
+        st.write('{} (중요도: {:.2f}%)'.format(fact, attn*100))
+        if sum_of_attn > 0.5:
+            break
 
 
 def show_with_full_fact(problem):
-    pass
+    show_with_name(problem)
+
+    st.markdown('**관련된 배경지식 목록**')
+    for pr in problem['facts']:
+        fact = pr['fact']
+        attn = pr['attn']
+
+        st.write('{} (중요도: {:.2f}%)'.format(fact, attn*100))
 
 
 problem_show = {
     ShowLevel.ONLY_QA: show_only_qa,
-    ShowLevel.WITH_NAME: show_with_name,
     ShowLevel.WITH_NAME_SOME_FACT: show_with_some_fact,
     ShowLevel.WITH_NAME_FULL_FACT: show_with_full_fact
 }
+
+
+def start_and_clear_session():
+    st.session_state['step'] = 0
+    st.session_state['problems'] = generate_problems(NUM_PROBLEMS)
+    st.session_state['correct'] = 0
+    st.session_state['uuid'] = uuid.uuid1()
+    st.session_state['start_time'] = time.time()
+
+
+def get_current_problem():
+    step = st.session_state['step']
+    return st.session_state['problems'][step][0]
+
+
+def progress_stage():
+    duration = time.time() - st.session_state['start_time']
+    print(duration)
+
+    if get_current_problem()['answer'] == st.session_state['user_answer']:
+        st.session_state['correct'] += 1
+
+    if st.session_state['step'] < NUM_PROBLEMS - 1:
+        st.session_state['step'] += 1
+        st.session_state['start_time'] = time.time()
+    else:
+        st.session_state['step'] = -1
+
+        st.info('맞춘문제: {}/{}'.format(st.session_state['correct'], NUM_PROBLEMS))
 
 
 if __name__ == '__main__':
@@ -45,10 +95,7 @@ if __name__ == '__main__':
         일부 질문엔 문제를 해결하는데 참고할 수 있는 자료도 포함됩니다. 외부 자료를 참조하는 것은 지양해주시기 부탁드립니다.
         답을 낼 수 없다면 찍기보다는 모르겠음에 체크해주세요!'''.format(NUM_PROBLEMS))
 
-        if st.button('시작'):
-            st.session_state['step'] = 0
-            st.session_state['problems'] = problems = generate_problems(NUM_PROBLEMS)
-            st.session_state['correct'] = 0
+        st.button('시작', on_click=start_and_clear_session)
     else:
         problem, level = st.session_state['problems'][st.session_state['step']]
 
@@ -58,10 +105,7 @@ if __name__ == '__main__':
         st.image(img)
         st.write('Question: {}'.format(problem['question']))
 
-        start_time = time.time()
+        st.session_state['user_answer'] = st.radio('답변', problem['top5'] + ['모르겠음'])
+        st.button('다음', on_click=progress_stage)
 
-        if st.button('Next'):
-            if st.session_state['step'] < NUM_PROBLEMS - 1:
-                st.session_state['step'] += 1
-            else:
-                st.session_state['step'] = -1
+        problem_show[level](problem)
