@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
                 allowNull: false,
             },
             spendtime: {
-                type: DataTypes.INTEGER.UNSIGNED,
+                type: DataTypes.FLOAT,
                 allowNull: false,
             },
             useruuid: {
