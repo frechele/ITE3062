@@ -4,7 +4,7 @@ import time
 import os
 import uuid
 
-from dataloader import generate_problems, ShowLevel
+from dataloader import generate_problems, ShowLevel, send_result
 
 
 NUM_PROBLEMS = 12
@@ -31,7 +31,7 @@ def show_with_some_fact(problem):
 
         sum_of_attn += attn
 
-        st.write('{} (중요도: {:.2f}%)'.format(fact, attn*100))
+        st.write('{}'.format(fact, attn*100))
         if sum_of_attn > 0.5:
             break
 
@@ -64,15 +64,18 @@ def start_and_clear_session():
 
 def get_current_problem():
     step = st.session_state['step']
-    return st.session_state['problems'][step][0]
+    return st.session_state['problems'][step]
 
 
 def progress_stage():
+    problem, level = get_current_problem()
     duration = time.time() - st.session_state['start_time']
-    print(duration)
-
-    if get_current_problem()['answer'] == st.session_state['user_answer']:
+    is_correct = problem['answer'] == st.session_state['user_answer']
+    
+    if is_correct:
         st.session_state['correct'] += 1
+
+    send_result(problem['confidence'], is_correct, level.value, duration, str(st.session_state['uuid']))
 
     if st.session_state['step'] < NUM_PROBLEMS - 1:
         st.session_state['step'] += 1
@@ -95,6 +98,8 @@ if __name__ == '__main__':
         일부 질문엔 문제를 해결하는데 참고할 수 있는 자료도 포함됩니다. 외부 자료를 참조하는 것은 지양해주시기 부탁드립니다.
         답을 낼 수 없다면 찍기보다는 모르겠음에 체크해주세요!'''.format(NUM_PROBLEMS))
 
+        st.info('스크롤을 내려보면 힌트가 있을 수도 있고 없을 수도 있습니다.')
+
         st.button('시작', on_click=start_and_clear_session)
     else:
         problem, level = st.session_state['problems'][st.session_state['step']]
@@ -103,7 +108,7 @@ if __name__ == '__main__':
         img = img.resize((448, 448))
 
         st.image(img)
-        st.write('Question: {}'.format(problem['question']))
+        st.write('질문: {}'.format(problem['question']))
 
         st.session_state['user_answer'] = st.radio('답변', problem['top5'] + ['모르겠음'])
         st.button('다음', on_click=progress_stage)
