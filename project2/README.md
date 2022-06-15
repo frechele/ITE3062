@@ -28,7 +28,12 @@ After the library installation, you need to configure the api server settings.
 (cf. your db manager name should be "db_admin")
 ```bash
 export HCI_MYSQL_HOST="<your mysql server host>"
-export HCI_MYSQL_PASSWORD="<your mysql admin host>"
+export HCI_MYSQL_PASSWORD="<your mysql admin password>"
+```
+
+Before the server run, you need to create database named as `hci`.
+```sql
+mysql> CREATE DATABASE hci;
 ```
 
 And then, run the api server as follow command.
